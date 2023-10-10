@@ -1,0 +1,40 @@
+{
+    "users": [
+        {
+            "id": 0,
+            "username": "guest",
+            "name": "Guest",
+            "password": "",
+            "avatar": "./avatars/guest-avatar-02.jpg",
+            "email": "guest@guests.com",
+            "autosave": true,
+            "data": [
+                {
+                    "name": "Sample board",
+                    "id": "c2485bda-8632-4a22-b283-44402f86e84f",
+                    "description": "Lorem ipsum dolor simet est",
+                    "creation_date": 0,
+                    "lists":[
+                        {
+                            "name": "Sample list 1",
+                            "id": "a1f5df96-5cf7-46c8-8b7c-6287ef15414f",
+                            "position": 0,
+                            "tasks": [
+                                {
+                                    "id": "930b5910-296f-48ce-b2d8-433ce405c21e",
+                                    "name": "Sample task",
+                                    "created": "0000",
+                                    "created_by": "guest",
+                                    "text": "Lorem ipsm dolor simet est",
+                                    "attachments": [],
+                                    "comments": [],
+                                    "open": false
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

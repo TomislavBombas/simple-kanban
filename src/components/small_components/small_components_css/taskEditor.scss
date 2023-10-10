@@ -1,0 +1,97 @@
+/* @media (prefers-color-scheme: light) { */
+$dark_color: #ffffff;
+$medium_dark_color: #efefef;
+$light_gray: #414a57;
+$light_color: #222f3e;
+$shaddow: rgba(255, 255, 255, 0.15);
+$semi_black: rgba(255, 255, 255, 0.35);
+
+// $dark_color: #222f3e;
+// $medium_dark_color: #414a57;
+// $light_gray: #efefef;
+// $light_color: #ffffff;
+// $shaddow: rgba(0, 0, 0, 0.15);
+// $semi_black: rgba(0, 0, 0, 0.35);
+
+* {
+  color: $dark_color !important;
+}
+.task-editor {
+  color: $dark_color !important;
+  &-section-headline {
+    border-top: 1px solid $light_gray;
+  }
+  &-section-comments-list .comment {
+    border-color: $light_gray !important;
+  }
+}
+/*}*/
+$max-width: 1200px;
+
+.task-editor {
+  &-section-headline {
+    padding: 0.4rem;
+    h4 {
+      font-size: 1rem;
+      text-transform: uppercase;
+      margin-top: 0.5rem;
+    }
+  }
+  &-content {
+    max-width: calc($max-width - 4rem);
+    & > div {
+      margin-top: 1rem;
+    }
+  }
+  &-section {
+    &-comments-edit {
+      padding-top: 0.5rem;
+    }
+    &-comments-list {
+      .comment {
+        max-width: calc($max-width - 2rem);
+        margin-top: 0.5rem;
+        padding-top: 0.5rem;
+        border-top-width: 1px;
+        border-top-style: solid;
+        display: flex;
+        &:first-child {
+          border: none;
+        }
+        .small-avatar {
+          margin-right: 1rem;
+          margin-top: 0.4rem;
+        }
+        &-reactions {
+          display: flex;
+          flex-grow: 1;
+        }
+        &-wrapper {
+          max-width: $max-width;
+        }
+        &-text {
+          padding: 0.35rem 1rem;
+          margin-left: 1rem;
+          text-align: left;
+          float: left;
+          background-color: cornflowerblue;
+          border-radius: 2rem;
+          position: relative;
+          max-width: calc($max-width / 2);
+          &::before {
+            content: "";
+            border-top: 2rem solid cornflowerblue;
+            border-bottom: 2rem solid transparent;
+            border-left: 2rem solid transparent;
+            width: 0rem;
+            height: 0rem;
+            display: block;
+            position: absolute;
+            top: 0;
+            left: -1rem;
+          }
+        }
+      }
+    }
+  }
+}
