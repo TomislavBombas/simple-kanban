@@ -9,7 +9,7 @@ import List from "../components/list";
 
 const Board = (props) => {
   // get userData from context and filter curent board data
-  const userData = useContext(UserContext);
+  const { userData } = useContext(UserContext);
   const initBoardData = userData.filter((board) => {
     return board.id === props.boardId;
   });
