@@ -1,62 +1,29 @@
+/**
+ * This component is responsible for rendering the chosen board in edit mode
+ * Works as a popup
+ */
+
 import React, { useState, useRef, useContext, useEffect } from "react";
 import { v4 as uuid } from "uuid";
 import { UserContext } from "../userContext";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faNewspaper,
-  faAlignLeft,
-  faPaperclip,
-  faComment,
-  faChartLine,
-} from "@fortawesome/free-solid-svg-icons";
+import { faNewspaper, faAlignLeft, faPaperclip, faComment, faChartLine } from "@fortawesome/free-solid-svg-icons";
 import { Editor } from "@tinymce/tinymce-react";
 import { EditTextInPlace, editorInitVars, UploadFile } from "../../utils/utils";
 import "./small_components_css/taskEditor.scss";
+import SingleComment from "./singleComment";
 import Reaction from "./reaction";
 
-function SingleComment(props) {
-  const { userInfo } = useContext(UserContext);
-
-  const addReaction = (commentId, userId, reaction) => {
-    props.comment.reactions.push({ userId: userId, reaction: reaction });
-    props.callback(props.comment);
-  };
-
-  return (
-    <div className="comment">
-      <div className="small-avatar avatar">
-        <img src={userInfo.avatar} />
-      </div>
-      <div className="comment-wrapper">
-        <div className="comment-meta">
-          <div className="comment-data">
-            <strong>{userInfo.name}</strong>
-            <span> </span>
-            {props.comment.datetime[1]}
-            <span> </span>
-            {props.comment.datetime[2]}
-            <span> </span>
-            {props.comment.datetime[4]}
-          </div>
-        </div>
-        <div className="comment-text">{props.comment.text}</div>
-        <div className="comment-reactions">
-          <Reaction
-            data={props.comment}
-            callback={addReaction}
-            userId={userInfo.id}
-          />
-        </div>
-      </div>
-    </div>
-  );
-}
-
+// This returns a task editor with comments and attachments
 function TaskEditor(props) {
   const editorRef = useRef(null);
   const [task, setTask] = useState([props.data]);
   const [comments, setComments] = useState([props.data.comments]);
 
+  // ==========================================================
+  // Comments section
+  // ==========================================================
+  // This is to update comments state
   function updateComments(comment) {
     setComments((currentComment) => {
       return currentComment.filter((singleComment) => {
@@ -69,14 +36,7 @@ function TaskEditor(props) {
     });
   }
 
-  // This is to update props data
-  function updateTaskDescription(e) {
-    props.data.text = editorRef.current.getContent();
-  }
-
-  function updateAttachments() {
-    console.log("Updateing attachments");
-  }
+  // Hen new comment is added update data
   function handleCommentInput(value) {
     const date = Date().split(" ");
     props.data.comments.push({
@@ -87,6 +47,24 @@ function TaskEditor(props) {
     });
     setComments(...[props.data.comments]);
   }
+  // ==========================================================
+
+  // ==========================================================
+  // Description section
+  // ==========================================================
+  // This is to update props data
+  function updateTaskDescription(e) {
+    props.data.text = editorRef.current.getContent();
+  }
+  // ==========================================================
+
+  // ==========================================================
+  // Attachments section
+  // ==========================================================
+  function updateAttachments() {
+    console.log("Updateing attachments");
+  }
+  // ==========================================================
 
   return (
     <div className="task-editor">
@@ -144,24 +122,12 @@ function TaskEditor(props) {
               <span className="input-group-text" id="basic-addon1">
                 <FontAwesomeIcon icon={faComment} />
               </span>
-              <input
-                type="text"
-                className="form-control"
-                placeholder="Add comment"
-                aria-label="Add comment"
-                aria-describedby="basic-addon1"
-              />
+              <input type="text" className="form-control" placeholder="Add comment" aria-label="Add comment" aria-describedby="basic-addon1" />
             </form>
           </div>
           <div className="task-editor-section-comments-list">
             {props.data.comments.map((comment) => {
-              return (
-                <SingleComment
-                  key={comment.id}
-                  comment={comment}
-                  callback={updateComments}
-                />
-              );
+              return <SingleComment key={comment.id} comment={comment} callback={updateComments} />;
             })}
           </div>
         </div>
