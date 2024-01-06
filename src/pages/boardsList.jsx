@@ -1,3 +1,7 @@
+/**
+ * This component is responsible for rendering the list of boards.
+ */
+
 import { useContext } from "react";
 import { UserContext } from "../components/userContext";
 import { BoardSummary } from "../components/boards";

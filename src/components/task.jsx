@@ -1,17 +1,14 @@
+/**
+ * This component is responsible for rendering the task summary.
+ */
+
 import React, { useState, Fragment } from "react";
 import { DotsDropdownMenu } from "./small_components/menu";
 import TaskEditor from "./small_components/taskEditor";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faEllipsis,
-  faComment,
-  faPaperclip,
-  faAlignLeft,
-} from "@fortawesome/free-solid-svg-icons";
+import { faEllipsis, faComment, faPaperclip, faAlignLeft } from "@fortawesome/free-solid-svg-icons";
 import { functionNameFromString } from "../utils/utils";
 import Popup from "../utils/popup";
-import { Draggable } from "react-beautiful-dnd";
-import { itemTypes } from "./itemTypes";
 
 export function TaskSummary(props) {
   const [task, setTask] = useState(props.data);
@@ -70,10 +67,7 @@ export function TaskSummary(props) {
 
   function TaskHeader(innerProps) {
     return (
-      <div
-        className="task-summary-header headline"
-        {...innerProps.dragHandleProps}
-      >
+      <div className="task-summary-header headline" {...innerProps.dragHandleProps}>
         <h4
           onClick={(e) => {
             toggleTask();
@@ -100,12 +94,7 @@ export function TaskSummary(props) {
           >
             <FontAwesomeIcon icon={faEllipsis} />
           </button>
-          {menuOpen === true && (
-            <DotsDropdownMenu
-              menuItems={listMenuItems}
-              menuAction={handleDotsMenu}
-            />
-          )}
+          {menuOpen === true && <DotsDropdownMenu menuItems={listMenuItems} menuAction={handleDotsMenu} />}
         </div>
       </div>
     );
@@ -144,19 +133,10 @@ export function TaskSummary(props) {
 
   function makeTaskCard(task) {
     return (
-      <Draggable draggableId={String(task.id)} index={Number(props.index)}>
-        {(provided) => (
-          <div
-            className="task-summary task-wrapper"
-            {...provided.draggableProps}
-            ref={provided.innerRef}
-          >
-            <TaskHeader dragHandleProps={provided.dragHandleProps} />
-            <TaskSummary {...task} />
-            {provided.placeholder}
-          </div>
-        )}
-      </Draggable>
+      <div className="task-summary task-wrapper">
+        <TaskHeader />
+        <TaskSummary {...task} />
+      </div>
     );
   }
 

@@ -1,3 +1,6 @@
+/**
+ * This component is responsible for rendering the sidebar.
+ */
 import { useContext } from "react";
 import { UserContext } from "./userContext";
 import { randomUserAvatar } from "../utils/utils";
@@ -19,11 +22,7 @@ function Sidebar(props) {
       <ul className="list-group">
         <li key="user" className="list-group-item">
           <button className="btn btn-light user-avatar">
-            {userInfo && userInfo.avatar ? (
-              <img src={userInfo.avatar} />
-            ) : (
-              <img src={randomUserAvatar()} />
-            )}
+            {userInfo && userInfo.avatar ? <img src={userInfo.avatar} /> : <img src={randomUserAvatar()} />}
           </button>
           {userInfo && userInfo.avatar ? <p>{userInfo.name}</p> : <p>Guest</p>}
         </li>
@@ -40,10 +39,7 @@ function Sidebar(props) {
           </button>
         )}
         <li key="menu-wrapper" className="menu-group-item">
-          <MainMenu
-            new_item={new_item}
-            menuCommands={{ addNew: props.addNew }}
-          />
+          <MainMenu new_item={new_item} menuCommands={{ addNew: props.addNew }} />
         </li>
       </ul>
     </div>

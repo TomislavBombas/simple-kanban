@@ -1,3 +1,8 @@
+/**
+ * This component is responsible for rendering the summary of a board.
+ * Used in boards list
+ */
+
 import React, { useContext, useState } from "react";
 
 export function BoardSummary(props) {

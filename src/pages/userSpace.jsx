@@ -1,7 +1,14 @@
+/**
+ * This component is responsible for rendering the user data
+ * It switches from board list to single board view
+ * Sidebar is permanent but content changes based on user selection
+ */
+
 import { Fragment, useContext, useEffect, useState } from "react";
 import { UserContext } from "../components/userContext";
 import BoardsList from "./boardsList";
 import Board from "./singleBoard";
+import { v4 as uuid } from "uuid";
 import Sidebar from "../components/sidebar";
 
 function UserSpace() {
@@ -11,8 +18,8 @@ function UserSpace() {
 
   useEffect(() => {
     console.log("board data update");
-    console.log(userData);
-  }, userData);
+    console.log(boardData);
+  }, [boardData]);
 
   // ============================================================
   // When specific user Board is picked, open chosen board via ID
@@ -36,21 +43,11 @@ function UserSpace() {
   // ============================================================
   // ============================================================
 
-  // ============================================================
-  // Callback function to update list of user created Boards
-  // ============================================================
-  function handleBoards(newBoard, insert = false) {
-    console.log("handling boards", newBoard);
-    if (insert) {
-      newBoard.name = "New board";
-      newBoard.lists = [];
-      setUserData((currentBoard) => [...currentBoard, newBoard]);
-    }
-
+  function setSingleBoardUserData(newBoardData) {
     setUserData((currentBoard) => {
       return currentBoard.filter((board) => {
-        if (board.id === newBoard.id) {
-          board = { ...newBoard };
+        if (board.id === newBoardData.id) {
+          board = { ...newBoardData };
           if (!board.deleted) {
             return board;
           }
@@ -59,6 +56,18 @@ function UserSpace() {
         }
       });
     });
+  }
+
+  // ============================================================
+  // Callback function to update list of user created Boards
+  // ============================================================
+  function handleBoards(newBoard, insert = false) {
+    if (insert) {
+      newBoard.name = "New board";
+      newBoard.lists = [];
+      setUserData((currentBoard) => [...currentBoard, newBoard]);
+    }
+    setSingleBoardUserData(newBoard);
   }
   // ============================================================
   // ============================================================
@@ -72,13 +81,18 @@ function UserSpace() {
     });
 
     if (insert) {
-      newList.name = "New list";
-      newList.tasks = [];
-      console.log(openBoard);
-      let newBoardData = { ...openBoard };
-      newBoardData.lists.push(newList);
-      console.log("newBoardData", newBoardData);
-      setUserData((currentBoard) => [...currentBoard, newBoardData]);
+      let newUserData = [...userData];
+      let currentBoard;
+      newUserData.filter((board) => {
+        if (board.id === taskListView) {
+          let newLists = [...board.lists];
+          currentBoard = { ...board };
+          newLists.push(newList);
+          board.lists = [...newLists];
+          return board;
+        }
+      });
+      setUserData(newUserData);
     } else {
       // =========================================================================================
       // Since we are changing multilevel object simple call to state update function (setUserData)
@@ -109,8 +123,15 @@ function UserSpace() {
   // ============================================================
   // ============================================================
   function addNewList() {
-    console.log("addingNewList");
-    handleLists({});
+    handleLists(
+      {
+        name: "New list",
+        id: uuid(),
+        tasks: [],
+        deleted: false,
+      },
+      true,
+    );
   }
   return (
     <Fragment>
@@ -120,13 +141,7 @@ function UserSpace() {
         goBackToBoardsList={goBackToBoardsList}
       />
       {taskListView === -1 && <BoardsList openBoard={openBoard} />}
-      {taskListView !== -1 && (
-        <Board
-          key={taskListView}
-          boardId={boardData.id}
-          listCallback={handleLists}
-        />
-      )}
+      {taskListView !== -1 && <Board key={taskListView} boardId={boardData.id} listCallback={handleLists} />}
     </Fragment>
   );
 }

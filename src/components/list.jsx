@@ -1,12 +1,15 @@
-import React, { useState } from "react";
+/**
+ * This component is responsible for rendering the list of tasks in a list.
+ * Tasks are rendered with task component
+ */
+
+import React, { useEffect, useState } from "react";
 import { v4 as uuid } from "uuid";
 import { TaskSummary } from "./task";
 import { DotsDropdownMenu } from "./small_components/menu";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEllipsis } from "@fortawesome/free-solid-svg-icons";
 import { EditTextInPlace } from "../utils/utils";
-import { Draggable, Droppable } from "react-beautiful-dnd";
-import { itemTypes } from "./itemTypes";
 
 export default function List(props) {
   const [tasks, setTasks] = useState([...props.data.tasks]);
@@ -69,68 +72,32 @@ export default function List(props) {
           <button className="btn dots-menu-icon">
             <FontAwesomeIcon icon={faEllipsis} />
           </button>
-          {menuOpen === true && (
-            <DotsDropdownMenu
-              menuItems={listMenuItems}
-              action={handleDotsMenu}
-            />
-          )}
+          {menuOpen === true && <DotsDropdownMenu menuItems={listMenuItems} action={handleDotsMenu} />}
         </div>
       </div>
     );
   }
+
   function TaskList(innerProps) {
     return (
-      <Droppable droppableId={String(innerProps.data.id)}>
-        {(provided) => (
-          <div
-            className="kanban-list-tasks"
-            {...provided.droppableProps}
-            ref={provided.innerRef}
-          >
-            {tasks.map((task, index) => {
-              return (
-                <TaskSummary
-                  key={task.id}
-                  id={task.id}
-                  index={index}
-                  open={task.open}
-                  data={task}
-                  callback={updateTasks}
-                />
-              );
-            })}
-            {provided.placeholder}
-          </div>
-        )}
-      </Droppable>
+      <div className="kanban-list-tasks">
+        {tasks.map((task, index) => {
+          return <TaskSummary key={task.id} id={task.id} index={index} open={task.open} data={task} callback={updateTasks} />;
+        })}
+      </div>
     );
   }
 
   return (
-    <Draggable draggableId={String(props.data.id)} index={props.index}>
-      {(provided) => (
-        <div
-          className="kanban-list"
-          {...provided.draggableProps}
-          ref={provided.innerRef}
-        >
-          <div className="kanban-list-wrapper">
-            <ListHeader
-              dragHandleProps={provided.dragHandleProps}
-              data={props.data}
-            />
-            <TaskList data={props.data} />
+    <div className="kanban-list">
+      <div className="kanban-list-wrapper">
+        <ListHeader data={props.data} />
+        <TaskList data={props.data} />
 
-            <button
-              className="btn btn-secondary btn-new-task"
-              onClick={createNewTask}
-            >
-              Create task
-            </button>
-          </div>
-        </div>
-      )}
-    </Draggable>
+        <button className="btn btn-secondary btn-new-task" onClick={createNewTask}>
+          Create task
+        </button>
+      </div>
+    </div>
   );
 }
