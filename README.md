@@ -1,8 +1,10 @@
-# React + Vite
+# Simple kanban in React
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Not much to see here, many have been done before.
+This is just for fun & learning
 
-Currently, two official plugins are available:
+### ToDo
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- Add drag & drop
+- Add more features to sidebar
+- Add file upload to tasks
